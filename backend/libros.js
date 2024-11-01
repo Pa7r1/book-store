@@ -1,6 +1,6 @@
 import express from "express";
-import { buscarLibro } from "./librosControlers.js";
+import { buscarLibro, validarBusqueda } from "./librosControlers.js";
 
 export const libroRouter = express.Router();
 
-libroRouter.get("/librosControlers", buscarLibro);
+libroRouter.get("/librosControlers", validarBusqueda, buscarLibro);
