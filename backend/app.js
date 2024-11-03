@@ -2,7 +2,7 @@ import express from "express";
 import cors from "cors";
 import { conectarDB } from "./db.js";
 
-import { LibrosCRouter } from "./librosControlers.js";
+import { busquedaRouter } from "./librosControlers.js";
 
 conectarDB();
 const app = express();
@@ -15,7 +15,7 @@ app.get("/", (req, res) => {
   res.send("todo ok desde api book-store");
 });
 
-app.use("/librosControlers", LibrosCRouter);
+app.use("/librosControlers", busquedaRouter);
 
 app.listen(port, () => {
   console.log(`servidor levantado en el puerto: ${port}`);
