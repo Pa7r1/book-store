@@ -25,7 +25,7 @@ usuarioRouter.get("/", async (req, res) => {
   res.send({ usuarios });
 });
 
-usuarioRouter.post("/", validarUsuario, async (req, res) => {
+usuarioRouter.post("/", validarUsuario(), async (req, res) => {
   const validacion = validationResult(req);
   if (!validacion.isEmpty()) {
     return res.status(400).send({ errores: validacion.array() });
