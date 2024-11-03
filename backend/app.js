@@ -1,7 +1,7 @@
 import express from "express";
 import cors from "cors";
 import { conectarDB } from "./db.js";
-
+import { usuarioRouter } from "./usuarios.js";
 import { busquedaRouter, categoriasRouter } from "./librosControlers.js";
 
 conectarDB();
@@ -16,7 +16,7 @@ app.get("/", (req, res) => {
 });
 
 app.use("/librosControlers", busquedaRouter, categoriasRouter);
-
+app.use("/usuarios", usuarioRouter);
 app.listen(port, () => {
   console.log(`servidor levantado en el puerto: ${port}`);
 });
