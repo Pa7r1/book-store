@@ -2,7 +2,7 @@ import express from "express";
 import { db } from "./db.js";
 import { param, query, validationResult } from "express-validator";
 
-export const LibrosCRouter = express.Router();
+export const busquedaRouter = express.Router();
 
 const validarBusqueda = () => [
   query("q")
@@ -11,7 +11,7 @@ const validarBusqueda = () => [
     .blacklist(`" ' / \ | () {} [] > < = ! `),
 ];
 
-LibrosCRouter.get("/search", validarBusqueda(), async (req, res) => {
+busquedaRouter.get("/search", validarBusqueda(), async (req, res) => {
   const validacion = validationResult(req);
 
   if (!validacion.isEmpty()) {
