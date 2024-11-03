@@ -3,6 +3,7 @@ import { db } from "./db.js";
 import { param, query, validationResult } from "express-validator";
 
 export const busquedaRouter = express.Router();
+export const categoriasRouter = express.Router();
 
 const validarBusqueda = () => [
   query("q")
@@ -40,3 +41,20 @@ busquedaRouter.get("/search", validarBusqueda(), async (req, res) => {
   const [libroEncontrado] = await db.execute(sql, parametros);
   res.send({ libros: [libroEncontrado] });
 });
+
+categoriasRouter.get("/categoria", async (req, res) => {
+  let sql =
+    "SELECT l.*, c.nombre AS nombre_categoria FROM libros l JOIN libros_categorias lc ON l.id_libro = lc.id_libro JOIN categorias c ON lc.id_categoria = c.id_categoria;";
+  const [librosCategorias] = await db.execute(sql);
+  res.send({ libros: [librosCategorias] });
+});
+
+/*
+CREATE DEFINER=`root`@`localhost` PROCEDURE `get_usuario_by_rol`(
+IN idRol INT)
+BEGIN
+	SELECT u.nombre, u.apellido, u.email, u.fecha_alta, u.fecha_modificacion FROM usuarios u
+	INNER JOIN roles r ON u.id_rol = r.id_rol
+    WHERE r.id_rol = idRol;
+END
+*/
