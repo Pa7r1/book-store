@@ -6,16 +6,10 @@ export const LibrosCRouter = express.Router();
 
 const validarBusqueda = () => [
   query("q")
+    .isAlphanumeric()
+    .isLength({ max: 100 })
     .notEmpty()
-    .withMessage("parametro vacio")
-    .bail()
-    .custom((value) => {
-      const isISBN = /^[0-9]{9}[0-9Xx]$|^[0-9]{13}$/.test(value);
-      if (isISBN) return true;
-
-      return typeof value === "string" && value.trim().length > 0;
-    })
-    .withMessage("El parámetro debe ser un ISBN válido o un nombre no vacío"),
+    .blacklist(`" ' / \ | () {} [] > < = ! `),
 ];
 
 LibrosCRouter.get("/search", validarBusqueda(), async (req, res) => {
@@ -26,28 +20,26 @@ LibrosCRouter.get("/search", validarBusqueda(), async (req, res) => {
   }
 
   const q = req.query.q;
-
-  let sql = "select * from libro";
+  console.log(q);
 
   const filtros = [];
   const parametros = [];
+  const saludo = [];
 
-  if (q == undefined) {
-    res.status(400);
-  } else if (typeof q == "number") {
-    filtros.push(`isbn = ?`);
-    parametros.push(q);
-  } else if (q.isLength > 1 && typeof q == "string") {
-    filtros.push(`nombre_libro like ?`);
-    parametros.push(`%${q}%`);
+  if (!(q != Number)) {
+    saludo.push("hola no soy numero");
   }
+  console.log(saludo);
+  let sql = "select * from libros";
+
+  if (filtros.length > 0) {
+    sql += ` where ${filtros.join(" and ")}`;
+  }
+
   /*
   if (q != undefined) {
     filtros.push(`nombre_libro LIKE ?`);
     parametros.push(`%${q}%`);
-  }
-  if (filtros.length > 0) {
-    sql += ` where ${filtros.join(" and ")}`;
   }
   */
   console.log(sql);
