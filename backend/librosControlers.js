@@ -1,16 +1,19 @@
 import express from "express";
 import { db } from "./db.js";
 import { param, query, validationResult } from "express-validator";
+import { validarBusqueda } from "./middleware.js";
 
 export const busquedaRouter = express.Router();
 export const categoriasRouter = express.Router();
+export const allRouter = express.Router();
 
-const validarBusqueda = () => [
-  query("q")
-    .isLength({ max: 100 })
-    .notEmpty()
-    .blacklist(`" ' / \ | () {} [] > < = ! `),
-];
+allRouter.get("/libros", async (req, res) => {
+  const sql =
+    "select titulo, isbn, año_publicacion, precio_venta, precio_alquiler from libros";
+
+  const [libros] = await db.execute(sql);
+  res.status(200).send({ LIBROS: libros });
+});
 
 busquedaRouter.get("/search", validarBusqueda(), async (req, res) => {
   const validacion = validationResult(req);
