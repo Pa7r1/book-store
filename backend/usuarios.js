@@ -1,25 +1,11 @@
 import express from "express";
 import { db } from "./db.js";
 import { body, validationResult } from "express-validator";
+import { validarUsuario } from "./middleware.js";
 import bcrypt from "bcrypt";
 
 export const usuarioRouter = express.Router();
 
-const validarUsuario = () => [
-  body("nombre").isAlpha().notEmpty().isLength({ max: 100 }),
-  body("username").isAlphanumeric().notEmpty().isLength({ max: 25 }),
-  body("apellido").isAlpha().notEmpty().isLength({ max: 100 }),
-  body("contraseña").isStrongPassword({
-    minLength: 8,
-    minLowercase: 1,
-    minUppercase: 1,
-    minSymbols: 0,
-  }),
-  body("email").isEmail().notEmpty().isLength({ max: 100 }),
-  body("tipo_usuario").isAlpha().notEmpty().isLength({ max: 9 }),
-  body("direccion").notEmpty().isLength({ max: 150 }),
-  body("telefono").isAlphanumeric().notEmpty().isLength({ max: 15 }),
-];
 usuarioRouter.get("/", async (req, res) => {
   const [usuarios] = await db.execute(
     "select nombre, apellido, username from usuarios"
