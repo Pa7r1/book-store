@@ -3,6 +3,7 @@ import cors from "cors";
 import { conectarDB } from "./db.js";
 import { usuarioRouter } from "./usuarios.js";
 import { busquedaRouter, categoriasRouter } from "./librosControlers.js";
+import { authRouter } from "./auth.js";
 
 conectarDB();
 const app = express();
@@ -17,6 +18,7 @@ app.get("/", (req, res) => {
 
 app.use("/librosControlers", busquedaRouter, categoriasRouter);
 app.use("/usuarios", usuarioRouter);
+app.use("/auth", authRouter);
 app.listen(port, () => {
   console.log(`servidor levantado en el puerto: ${port}`);
 });
