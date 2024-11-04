@@ -1,6 +1,6 @@
 import express from "express";
 import { db } from "./db.js";
-import { body, validationResult } from "express-validator";
+import { validationResult } from "express-validator";
 import { validarUsuario } from "./middleware.js";
 import bcrypt from "bcrypt";
 
@@ -32,6 +32,7 @@ usuarioRouter.post("/", validarUsuario(), async (req, res) => {
   const contraseñaHashed = await bcrypt.hash(contraseña, 10);
   const sql =
     "insert into usuarios (nombre, apellido, username, email, contraseña, tipo_usuario, direccion, telefono) values (?,?,?,?,?,?,?,?)";
+
   const [result] = await db.execute(sql, [
     nombre,
     apellido,
@@ -43,4 +44,12 @@ usuarioRouter.post("/", validarUsuario(), async (req, res) => {
     telefono,
   ]);
   res.status(201).send({ usuario: { id: result.insertId, username } });
+});
+
+usuarioRouter.delete("/:id", async (req, res) => {
+  const id = req.params.id;
+
+  await db.execute("delete from usuarios where id_usuario=?", [id]);
+
+  res.send({ id: parseInt(id) });
 });

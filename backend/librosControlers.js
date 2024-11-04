@@ -3,11 +3,13 @@ import { db } from "./db.js";
 import { param, query, validationResult } from "express-validator";
 import { validarBusqueda } from "./middleware.js";
 
+//routers que se utilizan en app
 export const busquedaRouter = express.Router();
 export const categoriasRouter = express.Router();
 export const allRouter = express.Router();
 
-allRouter.get("/libros", async (req, res) => {
+//trae todos los lirbos al inicio
+allRouter.get("/inicio", async (req, res) => {
   const sql =
     "select titulo, isbn, año_publicacion, precio_venta, precio_alquiler from libros";
 
@@ -15,6 +17,7 @@ allRouter.get("/libros", async (req, res) => {
   res.status(200).send({ LIBROS: libros });
 });
 
+//busqueda por nombre o isbn
 busquedaRouter.get("/search", validarBusqueda(), async (req, res) => {
   const validacion = validationResult(req);
 
@@ -27,6 +30,8 @@ busquedaRouter.get("/search", validarBusqueda(), async (req, res) => {
 
   const filtros = [];
   const parametros = [];
+
+  // esto me dice si lo ingresado son valores numericos en formato string
   if (/^\d+$/.test(q)) {
     filtros.push("isbn = ?");
     parametros.push(q);
@@ -45,6 +50,7 @@ busquedaRouter.get("/search", validarBusqueda(), async (req, res) => {
   res.send({ libros: [libroEncontrado] });
 });
 
+//muestra categoria de los libro
 categoriasRouter.get("/categoria", async (req, res) => {
   let sql =
     "SELECT l.*, c.nombre AS nombre_categoria FROM libros l JOIN libros_categorias lc ON l.id_libro = lc.id_libro JOIN categorias c ON lc.id_categoria = c.id_categoria;";
