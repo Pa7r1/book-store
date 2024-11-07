@@ -1,9 +1,24 @@
 import { db } from "./mysql.js";
-const TABLA = "libros";
+import { ErrorDelCliente } from "../red/errors.js";
 
 const BuscarTodosLosLibros = async () => {
-  const sql = `SELECT * FROM ${TABLA}`;
+  const sql = `SELECT * FROM libros`;
   const [libros] = await db.execute(sql);
+  return libros;
+};
+
+const busquedaPorID = async (id) => {
+  const sql = `SELECT * FROM libros WHERE id_libro = ?`;
+  const [libros] = await db.execute(sql, [id]);
+  if (!libros) throw new ErrorDelCliente("Id invalido");
+  return libros;
+};
+const busquedaPorCategoria = async (Categoria) => {
+  const sql = `SELECT l.*, c.nombre AS nombre_categoria 
+  FROM libros l JOIN libros_categorias lc ON l.id_libro = lc.id_libro
+  JOIN categorias c ON lc.id_categoria = c.id_categoria
+  WHERE nombre = ?`;
+  const [libros] = await db.execute(sql, [Categoria]);
   return libros;
 };
 
@@ -48,4 +63,6 @@ export const modeloLibros = {
   CrearNuevoLibro,
   busquedaPorIsbn,
   busquedaPorNombre,
+  busquedaPorCategoria,
+  busquedaPorID,
 };

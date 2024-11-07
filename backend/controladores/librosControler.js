@@ -1,9 +1,24 @@
 import { modeloLibros } from "../modelos/librosModelo.js";
+import catchedAsync from "../red/catchAsync.js";
+import respuesta from "../red/respuesta.js";
 //TABLA = "libros";
 
 const todos = async (req, res) => {
   const todosLibros = await modeloLibros.BuscarTodosLosLibros();
-  res.send(todosLibros);
+  respuesta(res, 200, todosLibros);
+};
+
+const buscaPorID = async (req, res) => {
+  const { id } = req.params;
+  const LibrosId = await modeloLibros.busquedaPorID(id);
+  respuesta(res, LibrosId);
+};
+
+const organizarPorCategoria = async (req, res) => {
+  const { Categoria } = req.body;
+
+  const categorias = await modeloLibros.busquedaPorCategoria(Categoria);
+  respuesta(res, 200, categorias);
 };
 
 const busquedaAvanzada = async (req, res) => {
@@ -12,10 +27,10 @@ const busquedaAvanzada = async (req, res) => {
 
   if (/^\d+$/.test(q)) {
     const elQueBuscas = await modeloLibros.busquedaPorIsbn(q);
-    res.send({ libro: elQueBuscas });
+    respuesta(res, 200, elQueBuscas);
   } else {
     const elQueBuscas = await modeloLibros.busquedaPorNombre([q]);
-    res.send({ libro: elQueBuscas });
+    respuesta(res, 200, elQueBuscas);
   }
 };
 
@@ -40,20 +55,13 @@ const agregar = async (req, res) => {
     estado,
   });
 
-  res.send({
-    libro: {
-      titulo,
-      isbn,
-      año_publicacion,
-      precio_venta,
-      precio_alquiler,
-      estado,
-    },
-  });
+  respuesta(res, 200, LibroNuevo);
 };
 
 export const librosControl = {
-  todos,
-  agregar,
-  busquedaAvanzada,
+  todos: catchedAsync(todos),
+  agregar: catchedAsync(agregar),
+  busquedaAvanzada: catchedAsync(busquedaAvanzada),
+  organizarPorCategoria: catchedAsync(organizarPorCategoria),
+  buscaPorID: catchedAsync(buscaPorID),
 };
