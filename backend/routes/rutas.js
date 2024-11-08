@@ -1,15 +1,15 @@
 import express from "express";
-import { librosControl } from "../controladores/librosControler.js";
-import { UserControl } from "../controladores/usuariosControler.js";
+import bookControl from "../controladores/librosControler.js";
+import userControl  from "../controladores/usuariosControler.js";
 
 const Router = express.Router();
 
-Router.get("/libros/:id", librosControl.buscaPorID);
-Router.get("/libros", librosControl.todos);
-Router.get("/libros/Search", librosControl.busquedaAvanzada);
-Router.post("/libros", librosControl.agregar);
-Router.get("/libros/categoria", librosControl.organizarPorCategoria);
+Router.get("/libros/:id", bookControl.searchById);
+Router.get("/libros", bookControl.all);
+Router.get("/libros/Search", bookControl.advancedSearching);
+Router.post("/libros", bookControl.add);
+Router.get("/libros/categoria", bookControl.searchByCategory);
 
-Router.get("/usuario", UserControl.Usarios);
-Router.post("/usuario/register", UserControl.registrarUsuario);
+Router.get("/usuario", userControl.users);
+Router.post("/usuario/register", userControl.registerUser);
 export default Router;

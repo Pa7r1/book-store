@@ -1,14 +1,14 @@
-import { UserModel } from "../modelos/usuariosModelo.js";
+import  UserModel  from "../modelos/usuariosModelo.js";
 import catchedAsync from "../red/catchAsync.js";
 import respuesta from "../red/respuesta.js";
 import bcryp from "bcrypt";
 
-const Usarios = async (req, res) => {
+const users = async (req, res) => {
   const AllUser = await UserModel.verUsuarios();
-  respuesta(res, 200, AllUser);
+  response(res, 200, AllUser);
 };
 
-const registrarUsuario = async (req, res) => {
+const registerUser = async (req, res) => {
   const {
     nombre,
     apellido,
@@ -20,15 +20,15 @@ const registrarUsuario = async (req, res) => {
     id_roles,
   } = req.body;
 
-  user = await UserModel.findUserByEmial(email);
+  user = await UserModel.findUserByEmail(email);
   if (user) {
-    respuesta(res, 400, "El Usuario ya existe");
+    response(res, 400, "El Usuario ya existe");
   }
 
   const salt = await bcryp.genSalt(10);
   const passHashed = await bcryp.hash(contraseña, salt);
 
-  const nuevoUsuario = await UserModel.crearUsuario({
+  const newUser = await UserModel.createUser({
     nombre,
     apellido,
     username,
@@ -39,10 +39,11 @@ const registrarUsuario = async (req, res) => {
     id_roles,
   });
 
-  respuesta(res, 200, nuevoUsuario);
+  response(res, 200, newUser);
 };
-
-export const UserControl = {
-  registrarUsuario: catchedAsync(registrarUsuario),
-  Usarios: catchedAsync(Usarios),
+//  cambié la forma de exportar por un error en mi local(volver a original)
+const userControl = {
+  registerUser: catchedAsync(registerUser),
+  users: catchedAsync(users),
 };
+export default userControl

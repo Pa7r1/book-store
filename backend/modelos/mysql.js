@@ -10,7 +10,7 @@ const configDB = {
 
 export let db;
 
-export async function conectarDB() {
+export async function dbConnection() {
   try {
     db = await mysql.createConnection(configDB);
     console.log("Conexión a la base de datos establecida.");
@@ -19,4 +19,4 @@ export async function conectarDB() {
   }
 }
 
-conectarDB();
+dbConnection();
