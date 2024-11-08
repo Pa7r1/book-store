@@ -1,39 +1,39 @@
-import { modeloLibros } from "../modelos/librosModelo.js";
+import  bookModel  from "../modelos/librosModelo.js";
 import catchedAsync from "../red/catchAsync.js";
-import respuesta from "../red/respuesta.js";
+import response from "../red/respuesta.js";
 
-const todos = async (req, res) => {
-  const todosLibros = await modeloLibros.BuscarTodosLosLibros();
-  respuesta(res, 200, todosLibros);
+const all = async (req, res) => {
+  const allBooks = await bookModel.searchAllBooks();
+  response(res, 200, allBooks);
 };
 
-const buscaPorID = async (req, res) => {
+const searchById = async (req, res) => {
   const { id } = req.params;
-  const LibrosId = await modeloLibros.busquedaPorID(id);
-  respuesta(res, LibrosId);
+  const LibrosId = await bookModel.searchById(id);
+  response(res, LibrosId);
 };
 
-const organizarPorCategoria = async (req, res) => {
+const searchByCategory = async (req, res) => {
   const { Categoria } = req.body;
 
-  const categorias = await modeloLibros.busquedaPorCategoria(Categoria);
-  respuesta(res, 200, categorias);
+  const categorias = await bookModel.searchByCategory(Categoria);
+  response(res, 200, categorias);
 };
 
-const busquedaAvanzada = async (req, res) => {
+const advancedSearching = async (req, res) => {
   const { q } = req.query;
   // "1273827432"
 
   if (/^\d+$/.test(q)) {
-    const elQueBuscas = await modeloLibros.busquedaPorIsbn(q);
-    respuesta(res, 200, elQueBuscas);
+    const elQueBuscas = await bookModel.searchByIsbn(q);
+    response(res, 200, elQueBuscas);
   } else {
-    const elQueBuscas = await modeloLibros.busquedaPorNombre([q]);
-    respuesta(res, 200, elQueBuscas);
+    const elQueBuscas = await bookModel.searchByName([q]);
+    response(res, 200, elQueBuscas);
   }
 };
 
-const agregar = async (req, res) => {
+const add = async (req, res) => {
   const {
     titulo,
     isbn,
@@ -44,7 +44,7 @@ const agregar = async (req, res) => {
     estado,
   } = req.body;
 
-  const LibroNuevo = await modeloLibros.CrearNuevoLibro({
+  const newBook = await bookModel.createNewBook({
     titulo,
     isbn,
     año_publicacion,
@@ -54,13 +54,16 @@ const agregar = async (req, res) => {
     estado,
   });
 
-  respuesta(res, 200, LibroNuevo);
+  response(res, 200, newBook);
 };
 
-export const librosControl = {
-  todos: catchedAsync(todos),
-  agregar: catchedAsync(agregar),
-  busquedaAvanzada: catchedAsync(busquedaAvanzada),
-  organizarPorCategoria: catchedAsync(organizarPorCategoria),
-  buscaPorID: catchedAsync(buscaPorID),
+// cambié la forma de exportar por un error en mi local(volver a original)
+const bookControl = {
+  all: catchedAsync(all),
+  add: catchedAsync(add),
+  advancedSearching: catchedAsync(advancedSearching),
+  searchByCategory: catchedAsync(searchByCategory),
+  searchById: catchedAsync(searchById),
 };
+
+export default bookControl
