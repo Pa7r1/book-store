@@ -1,7 +1,6 @@
 import { modeloLibros } from "../modelos/librosModelo.js";
 import catchedAsync from "../red/catchAsync.js";
 import respuesta from "../red/respuesta.js";
-//TABLA = "libros";
 
 const todos = async (req, res) => {
   const todosLibros = await modeloLibros.BuscarTodosLosLibros();

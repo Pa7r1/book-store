@@ -10,7 +10,9 @@ const BuscarTodosLosLibros = async () => {
 const busquedaPorID = async (id) => {
   const sql = `SELECT * FROM libros WHERE id_libro = ?`;
   const [libros] = await db.execute(sql, [id]);
-  if (!libros) throw new ErrorDelCliente("Id invalido");
+  if (!libros) {
+    throw new ErrorDelCliente("Id invalido", 400);
+  }
   return libros;
 };
 const busquedaPorCategoria = async (Categoria) => {
