@@ -66,6 +66,24 @@ const createNewBook = async ({
   return nuevoLibro;
 };
 
+const findAllCategory = async () => {
+  const sql = `SELECT nombre FROM categorias`;
+  const [categorias] = await db.execute(sql);
+  return categorias;
+};
+
+const findAllAutor = async () => {
+  const sql = `SELECT nombre FROM usuarios`;
+  const [autores] = await db.execute(sql);
+  return autores;
+};
+
+const findAllEditorial = async () => {
+  const sql = `SELECT nombre FROM editoriales`;
+  const [editoriales] = await db.execute(sql);
+  return editoriales;
+};
+
 // cambié la forma de exportar por un error en mi local(volver a original)
 const bookModel = {
   findAllBooks,
@@ -75,5 +93,8 @@ const bookModel = {
   findByName,
   findByIsbn,
   createNewBook,
+  findAllCategory,
+  findAllAutor,
+  findAllEditorial,
 };
 export default bookModel;

@@ -10,13 +10,13 @@ const all = async (req, res) => {
 const searchById = async (req, res) => {
   const { id } = req.params;
   const LibrosId = await bookModel.findById(id);
-  response(res, LibrosId);
+  response(res, 200, LibrosId);
 };
 
 const searchByIdAndDelete = async (req, res) => {
   const { id } = req.params;
   const LibrosId = await bookModel.findByIdAndDelete(id);
-  response(res, LibrosId);
+  response(res, 200, LibrosId);
 };
 
 const searchByCategory = async (req, res) => {
@@ -63,6 +63,21 @@ const addProduct = async (req, res) => {
   response(res, 200, newBook);
 };
 
+const allCategory = async (req, res) => {
+  const categories = await bookModel.findAllCategory();
+  response(res, 200, categories);
+};
+
+const allAutor = async (req, res) => {
+  const autores = await bookModel.findAllAutor();
+  response(res, 200, autores);
+};
+
+const AllEditorial = async (req, res) => {
+  const editoriales = await bookModel.findAllEditorial();
+  response(res, 200, editoriales);
+};
+
 // cambié la forma de exportar por un error en mi local(volver a original)
 const bookControl = {
   all: catchedAsync(all),
@@ -71,6 +86,9 @@ const bookControl = {
   searchByCategory: catchedAsync(searchByCategory),
   advancedSearching: catchedAsync(advancedSearching),
   addProduct: catchedAsync(addProduct),
+  allCategory: catchedAsync(allCategory),
+  allAutor: catchedAsync(allAutor),
+  AllEditorial: catchedAsync(AllEditorial),
 };
 
 export default bookControl;
