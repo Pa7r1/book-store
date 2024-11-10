@@ -1,5 +1,6 @@
-import  UserModel  from "../modelos/usuariosModelo.js";
+import UserModel from "../modelos/usuariosModelo.js";
 import catchedAsync from "../red/catchAsync.js";
+import jwt from "jsonwebtoken";
 import respuesta from "../red/respuesta.js";
 import bcryp from "bcrypt";
 
@@ -17,16 +18,20 @@ const registerUser = async (req, res) => {
     contraseña,
     telefono,
     id_direccion,
-    id_roles,
   } = req.body;
 
-  user = await UserModel.findUserByEmail(email);
-  if (user) {
+  existUser = await UserModel.findUserByEmail(email);
+  if (existUser) {
     response(res, 400, "El Usuario ya existe");
   }
 
   const salt = await bcryp.genSalt(10);
   const passHashed = await bcryp.hash(contraseña, salt);
+
+  payload = {};
+  token = jwt.sign(payload, process.env.JWT_SECRET, {
+    expiresIn: "2 h",
+  });
 
   const newUser = await UserModel.createUser({
     nombre,
@@ -36,7 +41,6 @@ const registerUser = async (req, res) => {
     contraseña: passHashed,
     telefono,
     id_direccion,
-    id_roles,
   });
 
   response(res, 200, newUser);
@@ -46,4 +50,4 @@ const userControl = {
   registerUser: catchedAsync(registerUser),
   users: catchedAsync(users),
 };
-export default userControl
+export default userControl;

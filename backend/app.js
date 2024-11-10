@@ -9,9 +9,6 @@ app.use(express.json());
 app.use(cors());
 
 app.use("/api/v1", Router);
-app.use((err, req, res, next) => {
-  console.log(err);
-});
 
 app.get("/", (req, res) => {
   res.send("todo ok desde api book-store");

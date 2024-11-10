@@ -1,16 +1,22 @@
 import { db } from "./mysql.js";
 import { clientError } from "../red/errors.js";
 
-const watchUsers = async () => {
+const allUser = async () => {
   const sql = `SELECT * FROM usuarios`;
-  const [usuarios] = await db.execute(sql);
-  return usuarios;
+  const { rows } = await db.execute(sql);
+  return rows;
+};
+
+const findOneByUID = async (id) => {
+  const sql = `SELECT * FROM usuarios WHERE id_usuario = ?`;
+  const { rows } = await db.execute(sql, [id]);
+  return rows[0];
 };
 
 const findUserByEmail = async (email) => {
   const sql = `SELECT * FROM usuarios WHERE email = ?`;
-  const [userEmail] = await db.execute(sql);
-  return userEmail;
+  const [rows] = await db.execute(sql, email);
+  return rows[0];
 };
 
 const createUser = async ({
@@ -21,7 +27,6 @@ const createUser = async ({
   contraseña,
   telefono,
   id_direccion,
-  id_roles,
 }) => {
   const sql = `INSERT INTO usuarios (nombre,
   nombre,
@@ -31,9 +36,9 @@ const createUser = async ({
   contraseña,
   telefono,
   id_direccion,
-  id_roles,) VALUES (?, ?, ?, ?, ?, ?, ?, ?)`;
+  id_roles,) VALUES (?, ?, ?, ?, ?, ?, ?)`;
 
-  const [newOne] = await db.execute(sql, [
+  const { rows } = await db.execute(sql, [
     nombre,
     apellido,
     username,
@@ -46,13 +51,14 @@ const createUser = async ({
   if (!newOne) {
     throw new clientError("ingreso invalido", 400);
   }
-  return newOne;
+  return rows[0];
 };
 
 // cambié la forma de exportar por un error en mi local(volver a original)
- const userModel = {
+const userModel = {
   createUser,
-  watchUsers,
+  allUser,
   findUserByEmail,
+  findOneByUID,
 };
-export default userModel
+export default userModel;

@@ -7,7 +7,13 @@ const searchAllBooks = async () => {
   return libros;
 };
 
-const searchById = async (id) => {
+const findByIdAndDelete = async (id) => {
+  const sql = `DELETE * FROM libros WHERE id_libro = ?`;
+  const [libros] = await db.execute(sql, [id]);
+  return [libros];
+};
+
+const findById = async (id) => {
   const sql = `SELECT * FROM libros WHERE id_libro = ?`;
   const [libros] = await db.execute(sql, [id]);
   if (!libros) {
@@ -61,12 +67,13 @@ const createNewBook = async ({
 };
 
 // cambié la forma de exportar por un error en mi local(volver a original)
- const bookModel = {
+const bookModel = {
   searchAllBooks,
   createNewBook,
   searchByIsbn,
   searchByName,
   searchByCategory,
-  searchById,
+  findById,
+  findByIdAndDelete,
 };
-export default bookModel
+export default bookModel;

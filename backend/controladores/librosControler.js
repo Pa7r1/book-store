@@ -1,4 +1,4 @@
-import  bookModel  from "../modelos/librosModelo.js";
+import bookModel from "../modelos/librosModelo.js";
 import catchedAsync from "../red/catchAsync.js";
 import response from "../red/respuesta.js";
 
@@ -10,6 +10,12 @@ const all = async (req, res) => {
 const searchById = async (req, res) => {
   const { id } = req.params;
   const LibrosId = await bookModel.searchById(id);
+  response(res, LibrosId);
+};
+
+searchByIdAndDelete = async (req, res) => {
+  const { id } = req.params;
+  const LibrosId = await bookModel.findByIdAndDelete(id);
   response(res, LibrosId);
 };
 
@@ -33,7 +39,7 @@ const advancedSearching = async (req, res) => {
   }
 };
 
-const add = async (req, res) => {
+const addProduct = async (req, res) => {
   const {
     titulo,
     isbn,
@@ -60,10 +66,10 @@ const add = async (req, res) => {
 // cambié la forma de exportar por un error en mi local(volver a original)
 const bookControl = {
   all: catchedAsync(all),
-  add: catchedAsync(add),
+  addProduct: catchedAsync(addProduct),
   advancedSearching: catchedAsync(advancedSearching),
   searchByCategory: catchedAsync(searchByCategory),
   searchById: catchedAsync(searchById),
 };
 
-export default bookControl
+export default bookControl;
