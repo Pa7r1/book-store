@@ -9,8 +9,8 @@ const Router = express.Router();
 Router.get("/libros/:id", bookControl.searchById);
 Router.get("/libros", bookControl.all);
 Router.get("/libros/Search", bookControl.advancedSearching);
-Router.post("/libros", bookControl.addProduct);
 Router.get("/libros/categoria", bookControl.searchByCategory);
+Router.post("/libros", bookControl.addProduct);
 
 //usuarios
 Router.get("/usuario", userControl.users);

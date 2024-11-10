@@ -1,7 +1,7 @@
 import { db } from "./mysql.js";
 import { clientError } from "../red/errors.js";
 
-const searchAllBooks = async () => {
+const findAllBooks = async () => {
   const sql = `SELECT * FROM libros`;
   const [libros] = await db.execute(sql);
   return libros;
@@ -21,7 +21,7 @@ const findById = async (id) => {
   }
   return libros;
 };
-const searchByCategory = async (Categoria) => {
+const findByCategory = async (Categoria) => {
   const sql = `SELECT l.*, c.nombre AS nombre_categoria 
   FROM libros l JOIN libros_categorias lc ON l.id_libro = lc.id_libro
   JOIN categorias c ON lc.id_categoria = c.id_categoria
@@ -30,13 +30,13 @@ const searchByCategory = async (Categoria) => {
   return libros;
 };
 
-const searchByName = async (titulo) => {
+const findByName = async (titulo) => {
   const sql = `SELECT * FROM libros WHERE titulo LIKE ?`;
   const [libroPorNombre] = await db.execute(sql, [`%${titulo}%`]);
   return libroPorNombre;
 };
 
-const searchByIsbn = async (isbn) => {
+const findByIsbn = async (isbn) => {
   const sql = `SELECT * FROM libros WHERE isbn = ? `;
   const [libroISBN] = await db.execute(sql, [isbn]);
   return libroISBN;
@@ -68,12 +68,12 @@ const createNewBook = async ({
 
 // cambié la forma de exportar por un error en mi local(volver a original)
 const bookModel = {
-  searchAllBooks,
-  createNewBook,
-  searchByIsbn,
-  searchByName,
-  searchByCategory,
-  findById,
+  findAllBooks,
   findByIdAndDelete,
+  findById,
+  findByCategory,
+  findByName,
+  findByIsbn,
+  createNewBook,
 };
 export default bookModel;
