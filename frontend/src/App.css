@@ -1,0 +1,75 @@
+.conteiner-label {
+    font-family: Arial, sans-serif;
+    max-width: 600px;
+    margin: auto;
+    padding: 20px;
+}
+
+.primerlinea {
+    font-size: 14px;
+    color: #555;
+    margin-bottom: 10px;
+}
+
+.conteiner {
+    font-size: 24px;
+    color: #333;
+    text-align: center;
+    margin-bottom: 20px
+}
+
+.conteiner-input {
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+}
+
+.formulario {
+    display: flex;
+    flex-direction: column;
+}
+
+.input-password {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+}
+
+.botonlogin {
+    background-color: #d32f2f;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 16px;
+    width: 100%;
+    margin-top: 10px;
+}
+
+.footer {
+    background-color: #d32f2f;
+    color: white;
+    padding: 20px;
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.informacioncontacto {
+    margin: 0;
+    font-size: 16px;
+}
+
+.redes-sociales {
+    color: white;
+    margin-left: 10px;
+    text-decoration: none;
+    font-size: 14px;
+}
+

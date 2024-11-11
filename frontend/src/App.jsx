@@ -1,57 +1,69 @@
-import React, { useState } from "react";
+//import React, { useState } from "react";
+import './App.css'
 
-function App() {
-  const [q, setQ] = useState("");
-  const [resultados, setResultados] = useState(null);
-  const [error, setError] = useState("");
+function App1() {
+  //solo armo estructura para tener componentes, despues de eso se agregan funcionalidades.
 
-  const localhost = "http://localhost:3000/librosControlers/";
-  const buscarLibros = async () => {
-    setError("");
-    setResultados(null);
-
-    const response = await fetch(`${localhost}/search?q=${q}`);
-    if (!response.ok) {
-      throw new Error(
-        "No se encontraron resultados o hubo un error en la búsqueda"
-      );
-    }
-
-    const data = await response.json();
-    setResultados(data);
-  };
 
   return (
-    <div>
-      <h1>Buscador de Libros</h1>
+    <>
 
-      <div>
-        <input
-          type="text"
-          placeholder="Buscar por nombre, autor o ISBN"
-          value={q}
-          onChange={(e) => setQ(e.target.value)}
-        />
+      <div className="conteiner-label" >
+        <section>
+          <div className="primerlinea" >
+            <a className ="login" >Inicio</a>
+            <span className="separador" >&gt;</span>
+            <a className="iniciosesion">Mi Cuenta</a>
+            <span>&gt;</span>
+            <a className="login" >Login</a>
 
-        <button onClick={buscarLibros}>Buscar</button>
+          </div>
+
+        <h1>Inicio de Sesión</h1>
+        </section>
+
+        <section className="conteiner-input" >
+          <div className="conteiner" >
+            <div className="formulario" >
+              <form id="login-form">
+                <div className="email" >
+                  <label className="form-class">Email</label>
+                  <input type="text" className="input-email" name="email" placeholder="Ingrese su email"/>
+                </div>
+
+                <div className="password" >
+                  <label className="form-class">Contraseña</label>
+                  <input type="password" className="input-password" name="password" placeholder="Ingrese contraseña" />
+                  <a>¿Olvidaste tu contraseña?</a>
+                </div>
+
+                <button type="submit" className="botonlogin" >Iniciar Sesión</button>
+              </form>
+              <p>¿No tenés cuenta todavía? <a href="#">Crear Cuenta</a> </p>
+            </div>
+          </div>
+        </section>
+
+        <footer className="footer" >
+          <div className="informacioncontacto" >
+            <h3>CONTÁCTANOS</h3>
+            <p>3804-645979</p>
+            <p>pepeloquito@yahoo.com.ar</p>
+            <p>Se puede ingresar mas informacion con otros p</p>
+          </div>
+
+          <div className="redes-sociales">
+            <a className="icono-insta" href='#'>Instagram [icono]</a>
+            <br />
+            <a className="icono-face" href='#'>Facebook [icono]</a>
+          </div>
+        </footer>
       </div>
-      <div>
-        {resultados ? (
-          <pre
-            style={{
-              background: "#f4f4f4",
-              padding: "1rem",
-              borderRadius: "8px",
-            }}
-          >
-            {JSON.stringify(resultados, null, 2)}
-          </pre>
-        ) : (
-          <p>No hay resultados para mostrar.</p>
-        )}
-      </div>
-    </div>
+
+
+
+    </>
   );
 }
 
-export default App;
+export default App1;
