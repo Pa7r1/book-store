@@ -17,7 +17,7 @@ Router.post("/libros", bookControl.addProduct); // agrega un producto
 
 //usuarios
 Router.get("/usuario", userControl.users);
-Router.post("/usuario/register", userControl.registerUser);
+Router.post("api/usuario/register", userControl.registerUser);
 
 //ventas
 Router.get("/carrito", cartControl.cartShop);
